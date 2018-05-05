@@ -2,20 +2,17 @@ import React, { Component } from 'react';
 
 import avatar from 'theme/assets/homer';
 
+import Styles from './styles.m.css';
+
 export class Composer extends Component {
     render () {
         return (
-            <section>
+            <section className = { Styles.composer } >
                 <form>
-                    <div>
-                        <img alt = 'homer' src = { avatar } />
-                    </div>
-                    <div>
-                        <textarea
-                            placeholder = { 'Hello world' }
-                        />
-                    </div>
-                    <input type = 'submit' value = 'Post' />
+                    <img alt = 'homer' src = { avatar } />
+                    <textarea
+                        placeholder = { 'Hello world' }
+                    /><input type = 'submit' value = 'Post' />
                 </form>
             </section>
         );
