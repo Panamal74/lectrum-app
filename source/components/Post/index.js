@@ -9,12 +9,12 @@ export class Post extends Component {
         const currentTime = moment().format('MMMM D h:mm:ss a');
 
         return (
-            <div>
-                <div><img alt = 'homer' src = { avatar } /></div>
-                <div><a>Pasha</a></div>
-                <div><time>{ currentTime }</time></div>
+            <section>
+                <img alt = 'homer' src = { avatar } />
+                <a>Pasha</a>
+                <time>{ currentTime }</time>
                 <p>произвольный комментарий</p>
-            </div>
+            </section>
         );
     }
 }
