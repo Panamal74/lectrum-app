@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-import avatar from 'theme/assets/homer';
+import avatar from '../../theme/assets/homer.png';
 
 import Styles from './styles.m.css';
 
