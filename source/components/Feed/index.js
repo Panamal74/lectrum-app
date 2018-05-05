@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 //Components
 import { Composer } from "../../components/Composer";
@@ -8,10 +9,24 @@ import { Post } from "../../components/Post";
 import Styles from './styles.m.css';
 
 export default class Feed extends Component {
+    static propTypes = {
+        avatar:               PropTypes.string.isRequired,
+        currentUserFirstName: PropTypes.string.isRequired,
+        currentUserLastName:  PropTypes.string.isRequired,
+    };
     render () {
+        const {
+            avatar,
+            currentUserFirstName,
+            currentUserLastName,
+        } = this.props;
+
         return (
             <section className = { Styles.feed }>
-                <Composer />
+                <Composer
+                    avatar = { avatar }
+                    currentUserFirstName = { currentUserFirstName }
+                />
                 <Post />
             </section>
         );
