@@ -24,10 +24,13 @@ export default class Feed extends Component {
         return (
             <section className = { Styles.feed }>
                 <Composer
-                    avatar = { avatar }
                     currentUserFirstName = { currentUserFirstName }
                 />
-                <Post />
+                <Post
+                    avatar = { avatar }
+                    currentUserFirstName = { currentUserFirstName }
+                    currentUserLastName = { currentUserLastName }
+                />
             </section>
         );
     }
