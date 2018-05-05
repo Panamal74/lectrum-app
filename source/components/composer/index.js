@@ -24,7 +24,8 @@ export class Composer extends Component {
                                 <img alt = 'homer' src = { avatar } />
                                 <textarea
                                     placeholder = { textValue }
-                                /><input type = 'submit' value = 'Post' />
+                                />
+                                <input type = 'submit' value = 'Post' />
                             </form>
                         </section>
                     )

@@ -21,7 +21,7 @@ export class Post extends Component {
             currentUserLastName,
         } = this.props;
         const currentTime = moment().format('MMMM D h:mm:ss a');
-        const userName = `${currentUserFirstName} ${currentUserLastName}`;
+        const userName = `${currentUserLastName} ${currentUserFirstName}`;
 
         return (
             <section className = { Styles.post } >
