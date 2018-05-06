@@ -10,6 +10,7 @@ export class Post extends Component {
         avatar:               PropTypes.string.isRequired,
         currentUserFirstName: PropTypes.string.isRequired,
         currentUserLastName:  PropTypes.string.isRequired,
+        post:                 PropTypes.object.isRequired,
     };
 
     render () {
@@ -17,16 +18,18 @@ export class Post extends Component {
             avatar,
             currentUserFirstName,
             currentUserLastName,
+            post,
         } = this.props;
         const currentTime = moment().format('MMMM D h:mm:ss a');
         const userName = `${currentUserLastName} ${currentUserFirstName}`;
+        const currentPost = post.comment;
 
         return (
             <section className = { Styles.post } >
                 <img alt = 'Homer' src = { avatar } />
                 <a>{userName}</a>
                 <time>{ currentTime }</time>
-                <p>произвольный комментарий</p>
+                <p>{currentPost}</p>
             </section>
         );
     }
