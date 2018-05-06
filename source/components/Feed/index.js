@@ -42,6 +42,18 @@ export default class Feed extends Component {
         } = this.props;
         const { posts } = this.state;
 
+        const renderPost = posts.map((value, index) => {
+            return (
+                <Post
+                    avatar = { avatar }
+                    currentUserFirstName = { currentUserFirstName }
+                    currentUserLastName = { currentUserLastName }
+                    key = { index }
+                    post = { value }
+                />
+            );
+        });
+
         return (
             <section className = { Styles.feed }>
                 <StatusBar />
@@ -49,18 +61,7 @@ export default class Feed extends Component {
                     createPost = { this.createPost }
                     currentUserFirstName = { currentUserFirstName }
                 />
-                {posts.map((value, index) => {
-                    return (
-                        <Post
-                            avatar = { avatar }
-                            currentUserFirstName = { currentUserFirstName }
-                            currentUserLastName = { currentUserLastName }
-                            key = { index }
-                            post = { value }
-                        />
-                    );
-                })}
-
+                { renderPost }
             </section>
         );
     }
