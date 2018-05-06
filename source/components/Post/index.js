@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 import Styles from './styles.m.css';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export class Post extends Component {
     static propTypes = {

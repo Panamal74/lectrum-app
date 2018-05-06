@@ -6,7 +6,7 @@ import Styles from './styles.m.css';
 
 // Components
 import { Consumer } from '../../components/HOC/withProfile';
-//import PropTypes from "prop-types";
+//import PropTypes from 'prop-types';
 
 export default class StatusBar extends Component {
     render () {

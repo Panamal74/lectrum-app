@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 //Components
-import { Composer } from "../../components/Composer";
-import { Post } from "../../components/Post";
-import StatusBar from "../../components/StatusBar";
+import { Composer } from '../../components/Composer';
+import { Post } from '../../components/Post';
+import StatusBar from '../../components/StatusBar';
 
 import Styles from './styles.m.css';
 
