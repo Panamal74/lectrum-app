@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // Instruments
-import { getUniqueID } from "../../instruments";
+//import { getUniqueID } from "../../instruments";
 import { api, TOKEN } from "../../config/api";
 
 //Components
@@ -95,7 +95,7 @@ export default class Feed extends Component {
         } = this.props;
         const { posts } = this.state;
 
-        const renderPost = posts.map((value, index) => {
+        const renderPost = posts.map((value) => {
             return (
                 <Catcher key = { value.id }>
                     <Post
