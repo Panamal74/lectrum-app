@@ -6,6 +6,8 @@ import { Consumer } from '../../components/HOC/withProfile';
 import Styles from './styles.m.css';
 import { func } from 'prop-types';
 
+
+
 export class Composer extends Component {
     static propTypes = {
         createPost: func.isRequired,
@@ -30,7 +32,12 @@ export class Composer extends Component {
         const { comment } = this.state;
         const { createPost } = this.props;
 
-        createPost(comment);
+        if (comment.trim()) {
+            createPost(comment);
+        }
+        this.setState({
+            comment: '',
+        });
     }
 
     render () {
