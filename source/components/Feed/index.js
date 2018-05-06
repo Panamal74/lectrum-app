@@ -18,18 +18,22 @@ export default class Feed extends Component {
         currentUserFirstName: PropTypes.string.isRequired,
         currentUserLastName:  PropTypes.string.isRequired,
     };
+
     constructor () {
         super();
         this.createPost = ::this._createPost;
     }
+
     state = {
         posts: [],
     };
+
     _createPost (comment) {
         this.setState(({ posts }) => ({
             posts: [{ id: getUniqueID(), comment }, ...posts],
         }));
     }
+
     render () {
         const {
             avatar,
