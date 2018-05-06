@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-//import avatar from '../../theme/assets/homer.png';
-
 import Styles from './styles.m.css';
 import PropTypes from "prop-types";
 
@@ -25,7 +23,7 @@ export class Post extends Component {
 
         return (
             <section className = { Styles.post } >
-                <img alt = 'homer' src = { avatar } />
+                <img alt = 'Homer' src = { avatar } />
                 <a>{userName}</a>
                 <time>{ currentTime }</time>
                 <p>произвольный комментарий</p>
