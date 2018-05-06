@@ -95,14 +95,11 @@ export default class Feed extends Component {
         } = this.props;
         const { posts } = this.state;
 
-        const renderPost = posts.map((value) => {
+        const renderPost = posts.map((post) => {
             return (
-                <Catcher key = { value.id }>
+                <Catcher key = { post.id }>
                     <Post
-                        avatar = { avatar }
-                        currentUserFirstName = { currentUserFirstName }
-                        currentUserLastName = { currentUserLastName }
-                        post = { value }
+                        { ...post }
                     />
                 </Catcher>
             );
