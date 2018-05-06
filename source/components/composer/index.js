@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Consumer } from '../../components/HOC/withProfile';
 
-//import avatar from '../../theme/assets/homer.png';
-
 import Styles from './styles.m.css';
 import PropTypes from "prop-types";
 
@@ -13,7 +11,6 @@ export class Composer extends Component {
 
     render () {
         const { currentUserFirstName } = this.props;
-        const textValue = `Hello ${currentUserFirstName}`;
 
         return (
             <Consumer>
@@ -23,7 +20,7 @@ export class Composer extends Component {
                             <form>
                                 <img alt = 'homer' src = { avatar } />
                                 <textarea
-                                    placeholder = { textValue }
+                                    placeholder = { `Hi ${currentUserFirstName}` }
                                 />
                                 <input type = 'submit' value = 'Post' />
                             </form>
