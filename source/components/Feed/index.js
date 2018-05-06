@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 //Components
 import { Composer } from "../../components/Composer";
 import { Post } from "../../components/Post";
+import StatusBar from "../../components/StatusBar";
 
 import Styles from './styles.m.css';
 
@@ -23,6 +24,7 @@ export default class Feed extends Component {
 
         return (
             <section className = { Styles.feed }>
+                <StatusBar />
                 <Composer
                     currentUserFirstName = { currentUserFirstName }
                 />
