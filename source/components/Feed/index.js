@@ -9,8 +9,11 @@ import { getUniqueID } from "../../instruments";
 import { Composer } from '../../components/Composer';
 import { Post } from '../../components/Post';
 import StatusBar from '../../components/StatusBar';
+import Catcher from '../Catcher';
+//import RenderCounter from '../../components/Counter';
 
 import Styles from './styles.m.css';
+import counterStyles from '../../components/Counter/styles.m.css';
 
 export default class Feed extends Component {
     static propTypes = {
@@ -21,7 +24,8 @@ export default class Feed extends Component {
 
     constructor () {
         super();
-        this.createPost = ::this._createPost;
+        //this.createPost = ::this._createPost; - новый синтаксис
+        this.createPost = this._createPost.bind(this);
     }
 
     state = {
@@ -44,15 +48,24 @@ export default class Feed extends Component {
 
         const renderPost = posts.map((value, index) => {
             return (
-                <Post
-                    avatar = { avatar }
-                    currentUserFirstName = { currentUserFirstName }
-                    currentUserLastName = { currentUserLastName }
-                    key = { index }
-                    post = { value }
-                />
+                <Catcher key = { value.id }>
+                    <Post
+                        avatar = { avatar }
+                        currentUserFirstName = { currentUserFirstName }
+                        currentUserLastName = { currentUserLastName }
+                        post = { value }
+                    />
+                </Catcher>
             );
         });
+
+        const RenderCounter = ({ count }) => {
+            return (
+                <div className = { counterStyles.counter }>
+                    Posts count { count }
+                </div>
+            );
+        };
 
         return (
             <section className = { Styles.feed }>
@@ -61,6 +74,7 @@ export default class Feed extends Component {
                     createPost = { this.createPost }
                     currentUserFirstName = { currentUserFirstName }
                 />
+                <RenderCounter count = {posts.length}/>
                 { renderPost }
             </section>
         );
