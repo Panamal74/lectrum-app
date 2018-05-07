@@ -11,14 +11,13 @@ import { socket } from '../../socket';
 // Components
 import Catcher from '../Catcher';
 import Composer from '../../components/Composer';
+import { Counter } from '../../components/Counter';
 import { Post } from '../../components/Post';
 import StatusBar from '../../components/StatusBar';
-
-//import RenderCounter from '../../components/Counter';
+import Spinner from '../../components/Spinner';
 
 // Style
 import Styles from './styles.m.css';
-import counterStyles from '../../components/Counter/styles.m.css';
 
 export default class Feed extends Component {
     static propTypes = {
@@ -88,7 +87,14 @@ export default class Feed extends Component {
         });
     }
 
+    _setPostsFetchingState = (state) => {
+        this.setState(() => ({
+            isPostsFetching: state,
+        }));
+    };
+
     _fetchPosts () {
+        this._setPostsFetchingState(true);
         fetch(api)
             .then((response) => {
                 if (response.status !== 200) {
@@ -102,9 +108,11 @@ export default class Feed extends Component {
                 this.setState(({ posts }) => ({
                     posts: [...data, ...posts],
                 }));
+                this._setPostsFetchingState(false);
             })
             .catch((message) => {
                 console.error(message);
+                this._setPostsFetchingState(false);
             });
     }
 
@@ -112,6 +120,7 @@ export default class Feed extends Component {
         // this.setState(({ posts }) => ({
         //     posts: [{ id: getUniqueID(), comment }, ...posts],
         // }));
+        this._setPostsFetchingState(true);
         fetch(api, {
             method:  'POST',
             headers: {
@@ -131,9 +140,11 @@ export default class Feed extends Component {
                 this.setState(({ posts }) => ({
                     posts: [data, ...posts],
                 }));
+                this._setPostsFetchingState(false);
             })
             .catch((message) => {
                 console.error(message);
+                this._setPostsFetchingState(false);
             });
     }
 
@@ -188,21 +199,7 @@ export default class Feed extends Component {
             currentUserFirstName,
             currentUserLastName,
         } = this.props;
-        const { posts } = this.state;
-
-        // const renderPosts = posts.map((post) => {
-        //     return (
-        //         <Catcher key = { post.id }>
-        //             <Post
-        //                 { ...post }
-        //                 currentUserFirstName = { currentUserFirstName }
-        //                 currentUserLastName = { currentUserLastName }
-        //                 likePost = { this.likePost }
-        //                 removePost = { this.removePost }
-        //             />
-        //         </Catcher>
-        //     );
-        // });
+        const { posts, isPostsFetching } = this.state;
 
         const renderPosts = posts.map((post) => {
             return (
@@ -227,14 +224,6 @@ export default class Feed extends Component {
                 </CSSTransition>);
         });
 
-        const RenderCounter = ({ count }) => {
-            return (
-                <div className = { counterStyles.counter }>
-                    Posts count { count }
-                </div>
-            );
-        };
-
         return (
             <section className = { Styles.feed }>
                 <StatusBar />
@@ -242,7 +231,8 @@ export default class Feed extends Component {
                     createPost = { this.createPost }
                     currentUserFirstName = { currentUserFirstName }
                 />
-                <RenderCounter count = { posts.length } />
+                <Spinner isSpinning = { isPostsFetching } />
+                <Counter count = { posts.length } />
                 <TransitionGroup>{ renderPosts }</TransitionGroup>
             </section>
         );
