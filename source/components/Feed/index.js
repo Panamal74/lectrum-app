@@ -30,6 +30,7 @@ export default class Feed extends Component {
         //this.createPost = ::this._createPost; - новый синтаксис
         this.createPost = this._createPost.bind(this);
         this.fetchPosts = this._fetchPosts.bind(this);
+        this.removePost = this._removePost.bind(this);
     }
 
     state = {
@@ -55,6 +56,18 @@ export default class Feed extends Component {
             ) {
                 this.setState(({ posts }) => ({
                     posts: [createPost, ...posts],
+                }));
+            }
+        });
+        socket.on('remove', (postJSON) => {
+            const { data: { id }, meta } = JSON.parse(postJSON);
+
+            if (
+                `${currentUserFirstName} ${currentUserLastName}` !==
+                `${meta.authorFirstName} ${meta.authorLastName}`
+            ) {
+                this.setState(({ posts }) => ({
+                    posts: posts.filter((post) => post.id !== id),
                 }));
             }
         });
@@ -109,11 +122,33 @@ export default class Feed extends Component {
             });
     }
 
+    async _removePost (id) {
+        try {
+            const responce = await fetch(`${api}/${id}`, {
+                method:  'DELETE',
+                headers: {
+                    Authorization: TOKEN,
+                },
+            });
+
+
+            if (responce.status !== 204) {
+                throw new Error('Delete post filed');
+            }
+
+            this.setState(({ posts }) => ({
+                posts: posts.filter((post) => post.id !== id),
+            }));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     render () {
         const {
             //avatar,
             currentUserFirstName,
-            //currentUserLastName,
+            currentUserLastName,
         } = this.props;
         const { posts } = this.state;
 
@@ -122,6 +157,9 @@ export default class Feed extends Component {
                 <Catcher key = { post.id }>
                     <Post
                         { ...post }
+                        currentUserFirstName = { currentUserFirstName }
+                        currentUserLastName = { currentUserLastName }
+                        removePost = { this.removePost }
                     />
                 </Catcher>
             );
