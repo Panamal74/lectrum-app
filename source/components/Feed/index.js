@@ -48,7 +48,7 @@ export default class Feed extends Component {
                 return response.json();
             })
             .then(({ data }) => {
-                console.log(data);
+                //console.log(data);
                 this.setState(({ posts }) => ({
                     posts: [...data, ...posts],
                 }));
