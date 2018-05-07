@@ -89,9 +89,9 @@ export default class Feed extends Component {
 
     render () {
         const {
-            avatar,
+            //avatar,
             currentUserFirstName,
-            currentUserLastName,
+            //currentUserLastName,
         } = this.props;
         const { posts } = this.state;
 
