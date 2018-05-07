@@ -6,13 +6,14 @@ import PropTypes from 'prop-types';
 //import { getUniqueID } from "../../instruments";
 import { api, TOKEN } from "../../config/api";
 
-//Components
-import { Composer } from '../../components/Composer';
+// Components
+import Composer from '../../components/Composer';
 import { Post } from '../../components/Post';
 import StatusBar from '../../components/StatusBar';
 import Catcher from '../Catcher';
 //import RenderCounter from '../../components/Counter';
 
+// Style
 import Styles from './styles.m.css';
 import counterStyles from '../../components/Counter/styles.m.css';
 
