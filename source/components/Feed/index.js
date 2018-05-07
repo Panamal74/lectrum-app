@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 // Instruments
 //import { getUniqueID } from "../../instruments";
-import { api, TOKEN } from "../../config/api";
+import { api, GROUP_ID, TOKEN } from "../../config/api";
+import { socket } from '../../socket';
 
 // Components
 import Composer from '../../components/Composer';
@@ -36,7 +37,27 @@ export default class Feed extends Component {
     };
 
     componentDidMount () {
+        const {
+            currentUserFirstName,
+            currentUserLastName,
+        } = this.props;
+
         this.fetchPosts();
+
+        socket.emit('join', GROUP_ID);
+        socket.on('create', (postJSON) => {
+            const { data: createPost, meta } = JSON.parse(postJSON);
+
+            //console.log(createPost);
+            if (
+                `${currentUserFirstName} ${currentUserLastName}` !==
+                `${meta.authorFirstName} ${meta.authorLastName}`
+            ) {
+                this.setState(({ posts }) => ({
+                    posts: [createPost, ...posts],
+                }));
+            }
+        });
     }
 
     _fetchPosts () {
