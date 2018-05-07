@@ -1,6 +1,7 @@
 // Core
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 // Instruments
 //import { getUniqueID } from "../../instruments";
@@ -8,10 +9,11 @@ import { api, GROUP_ID, TOKEN } from "../../config/api";
 import { socket } from '../../socket';
 
 // Components
+import Catcher from '../Catcher';
 import Composer from '../../components/Composer';
 import { Post } from '../../components/Post';
 import StatusBar from '../../components/StatusBar';
-import Catcher from '../Catcher';
+
 //import RenderCounter from '../../components/Counter';
 
 // Style
@@ -31,6 +33,7 @@ export default class Feed extends Component {
         this.createPost = this._createPost.bind(this);
         this.fetchPosts = this._fetchPosts.bind(this);
         this.removePost = this._removePost.bind(this);
+        this.likePost = this._likePost.bind(this);
     }
 
     state = {
@@ -68,6 +71,18 @@ export default class Feed extends Component {
             ) {
                 this.setState(({ posts }) => ({
                     posts: posts.filter((post) => post.id !== id),
+                }));
+            }
+        });
+        socket.on('like', (postJSON) => {
+            const { data: likedPost, meta } = JSON.parse(postJSON);
+
+            if (
+                `${currentUserFirstName} ${currentUserLastName}` !==
+                `${meta.authorFirstName} ${meta.authorLastName}`
+            ) {
+                this.setState(({ posts }) => ({
+                    posts: posts.map((post) => post.id === likedPost.id ? likedPost : post),
                 }));
             }
         });
@@ -144,6 +159,29 @@ export default class Feed extends Component {
         }
     }
 
+    async _likePost (id) {
+        try {
+            const responce = await fetch(`${api}/${id}`, {
+                method:  'PUT',
+                headers: {
+                    Authorization: TOKEN,
+                },
+            });
+
+            if (responce.status !== 200) {
+                throw new Error('Like post filed');
+            }
+
+            const { data } = await responce.json();
+
+            this.setState(({ posts }) => ({
+                posts: posts.map((post) => post.id === id ? data : post),
+            }));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     render () {
         const {
             //avatar,
@@ -152,17 +190,41 @@ export default class Feed extends Component {
         } = this.props;
         const { posts } = this.state;
 
-        const renderPost = posts.map((post) => {
+        // const renderPosts = posts.map((post) => {
+        //     return (
+        //         <Catcher key = { post.id }>
+        //             <Post
+        //                 { ...post }
+        //                 currentUserFirstName = { currentUserFirstName }
+        //                 currentUserLastName = { currentUserLastName }
+        //                 likePost = { this.likePost }
+        //                 removePost = { this.removePost }
+        //             />
+        //         </Catcher>
+        //     );
+        // });
+
+        const renderPosts = posts.map((post) => {
             return (
-                <Catcher key = { post.id }>
-                    <Post
-                        { ...post }
-                        currentUserFirstName = { currentUserFirstName }
-                        currentUserLastName = { currentUserLastName }
-                        removePost = { this.removePost }
-                    />
-                </Catcher>
-            );
+                <CSSTransition
+                    classNames = { {
+                        enter:       Styles.postInStart,
+                        enterActive: Styles.postInEnd,
+                        exit:        Styles.postOutStart,
+                        exitActive:  Styles.postOutEnd,
+                    } }
+                    key = { post.id }
+                    timeout = { { enter: 500, exit: 400 } }>
+                    <Catcher key = { post.id }>
+                        <Post
+                            { ...post }
+                            currentUserFirstName = { currentUserFirstName }
+                            currentUserLastName = { currentUserLastName }
+                            likePost = { this.likePost }
+                            removePost = { this.removePost }
+                        />
+                    </Catcher>
+                </CSSTransition>);
         });
 
         const RenderCounter = ({ count }) => {
@@ -181,7 +243,7 @@ export default class Feed extends Component {
                     currentUserFirstName = { currentUserFirstName }
                 />
                 <RenderCounter count = { posts.length } />
-                { renderPost }
+                <TransitionGroup>{ renderPosts }</TransitionGroup>
             </section>
         );
     }
