@@ -1,6 +1,6 @@
 import { sum, getUniqueID, getFullApiUrl } from './index';
 
-describe('test sum function', () => {
+describe.skip('test sum function', () => {
     test('first operand should be a number', () => {
         expect(() => sum('num', 2)).toThrow('Operand 1 should be a number.');
     });
@@ -14,7 +14,7 @@ describe('test sum function', () => {
     });
 });
 
-describe('test getUniqueID function', () => {
+describe.skip('test getUniqueID function', () => {
     test('аргумент функции должен иметь тип number', () => {
         expect(() => getUniqueID('num')).toThrow('The function argument should be a number!');
     });
@@ -32,7 +32,7 @@ describe('test getUniqueID function', () => {
     });
 });
 
-describe('test getFullApiUrl function', () => {
+describe.skip('test getFullApiUrl function', () => {
 
     test('первый аргумент функции  getFullApiUrl должен иметь тип string', () => {
         expect(() => getFullApiUrl(2, 'num')).toThrow("'api' and 'GROUP_ID' arguments passed should be a string!");

@@ -19,8 +19,12 @@ export class Composer extends Component {
         this.handleTextAreaKeyDown = this._handleTextAreaKeyDown.bind(this);
     }
     state = {
-        comment: 'I am a comment',
+        comment: '',
     };
+
+    componentDidUpdate () {
+
+    }
 
     _handleChangeTextArea (event) {
         this.setState({
@@ -76,4 +80,4 @@ export class Composer extends Component {
     }
 }
 
-//export default withProfile(Composer);
+export default withProfile(Composer);

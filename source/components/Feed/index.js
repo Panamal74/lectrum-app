@@ -19,7 +19,7 @@ import Postman from '../../components/Postman';
 // Style
 import Styles from './styles.m.css';
 
-class Feed extends Component {
+export class Feed extends Component {
     static propTypes = {
         //avatar:               PropTypes.string.isRequired,
         createPost:           PropTypes.func.isRequired,
