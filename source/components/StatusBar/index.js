@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 // Instruments
 import Styles from './styles.m.css';
+import { socket } from '../../socket';
 
 // Components
 import { Consumer } from 'components/HOC/withProfile';
@@ -12,6 +13,22 @@ export default class StatusBar extends Component {
     state = {
         online: false,
     };
+
+    componentDidMount () {
+        socket.on('connect', () => {
+            console.log('connected');
+            this.setState({
+                online: true,
+            });
+        });
+
+        socket.on('disconnect', () => {
+            console.log('disconnect');
+            this.setState({
+                online: false,
+            });
+        });
+    }
 
     render () {
         const { online } = this.state;

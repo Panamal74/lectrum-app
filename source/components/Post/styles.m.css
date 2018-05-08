@@ -7,7 +7,6 @@
     border-radius: 3px;
     background-color: var(--paletteColor2);
     word-wrap: break-word;
-
     & img {
         width: 40px;
         height: 40px;
@@ -16,9 +15,7 @@
         border-radius: 50%;
         cursor: pointer;
     }
-
     & a,
-
     & time {
         position: absolute;
         left: 60px;
@@ -28,21 +25,34 @@
             text-decoration: underline;
         }
     }
-
     & a {
         top: 15px;
         color: var(--paletteColor7);
         font-weight: 700;
     }
-
     & time {
         top: 35px;
         color: var(--paletteColor5);
         font-size: 12px;
     }
-
     & p {
         margin-top: 16px;
         font-size: 14px;
+    }
+
+    & .cross {
+        content: '';
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 10px;
+        height: 10px;
+        background-image: url('../../theme/assets/cross.png');
+        background-repeat: no-repeat;
+        cursor: pointer;
+
+        &:hover {
+            background-position: -13px 0;
+        }
     }
 }

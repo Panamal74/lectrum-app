@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Consumer } from '../../components/HOC/withProfile';
+import { withProfile } from '../../components/HOC/withProfile';
+import { func } from 'prop-types';
 
 //import avatar from '../../theme/assets/homer.png';
 
 import Styles from './styles.m.css';
-import { func } from 'prop-types';
 
 
-
-export class Composer extends Component {
+class Composer extends Component {
     static propTypes = {
         createPost: func.isRequired,
     };
@@ -16,6 +15,8 @@ export class Composer extends Component {
         super();
         this.handleChangeTextArea = this._handleChangeTextArea.bind(this);
         this.handleSubmit = this._handleSubmit.bind(this);
+        this.handleCopyTextArea = this._handleCopyTextArea.bind(this);
+        this.handleTextAreaKeyDown = this._handleTextAreaKeyDown.bind(this);
     }
     state = {
         comment: 'I am a comment',
@@ -25,6 +26,16 @@ export class Composer extends Component {
         this.setState({
             comment: event.target.value,
         });
+    }
+
+    _handleCopyTextArea (event) {
+        event.preventDefault();
+    }
+
+    _handleTextAreaKeyDown (event) {
+        if (event.keyCode === 13) {
+            this.handleSubmit(event);
+        }
     }
 
     _handleSubmit (event) {
@@ -42,25 +53,27 @@ export class Composer extends Component {
 
     render () {
         const { comment } = this.state;
+        const {
+            avatar,
+            currentUserFirstName,
+        } = this.props;
 
         return (
-            <Consumer>
-                {
-                    ({ avatar, currentUserFirstName }) => (
-                        <section className = { Styles.composer } >
-                            <form onSubmit = { this.handleSubmit }>
-                                <img alt = 'homer' src = { avatar } />
-                                <textarea
-                                    placeholder = { `Hello ${currentUserFirstName}` }
-                                    value = { comment }
-                                    onChange = { this.handleChangeTextArea }
-                                />
-                                <input type = 'submit' value = 'Post' />
-                            </form>
-                        </section>
-                    )
-                }
-            </Consumer>
+            <section className = { Styles.composer } >
+                <form onSubmit = { this.handleSubmit }>
+                    <img alt = 'homer' src = { avatar } />
+                    <textarea
+                        placeholder = { `Привет, ${currentUserFirstName}` }
+                        value = { comment }
+                        onChange = { this.handleChangeTextArea }
+                        onCopy = { this.handleCopyTextArea }
+                        onKeyDown = { this.handleTextAreaKeyDown }
+                    />
+                    <input type = 'submit' value = 'Post' />
+                </form>
+            </section>
         );
     }
 }
+
+export default withProfile(Composer);
