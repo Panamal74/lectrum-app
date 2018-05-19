@@ -26,7 +26,7 @@ export default new class FeedStore extends EventEmitter {
         this.on('change', callback);
     }
 
-    unsuscribe (callback) {
+    unsubscribe (callback) {
         this.removeListener('change', callback);
     }
 
