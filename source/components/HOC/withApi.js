@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { api, TOKEN, GROUP_ID } from "../../config/api";
 import { socket } from '../../socket';
 
+// Flux
+import { fetchPosts } from '../../flux/actions/actions';
+import dispatcher from '../../flux/dispatcher';
+import PostsStore from '../../flux/store';
+
 export const withApi = (Enchanced) =>
     class WithApi extends Component {
 
@@ -15,11 +20,12 @@ export const withApi = (Enchanced) =>
         }
 
         state = {
-            posts:           [],
+            posts:           PostsStore.getPosts(),
             isPostsFetching: true,
         };
 
         componentDidMount () {
+            PostsStore.subscribe(this._handleStoreChange);
             const {
                 currentUserFirstName,
                 currentUserLastName,
@@ -66,6 +72,16 @@ export const withApi = (Enchanced) =>
             });
         }
 
+        componentWillUnmount () {
+            PostsStore.unsubscribe(this._handleStoreChange);
+        }
+
+        _handleStoreChange = () => {
+            this.setState(() => ({
+                posts: PostsStore.getPosts(),
+            }));
+        };
+
         _setPostsFetchingState = (state) => {
             this.setState(() => ({
                 isPostsFetching: state,
@@ -78,14 +94,16 @@ export const withApi = (Enchanced) =>
                 const response = await fetch(api);
 
                 if (response.status !== 200) {
-                    throw new Error('Fetch post failed');
+                    throw new Error('Fetch posts failed');
                 }
 
                 const { data } = await response.json();
 
-                this.setState(({ posts }) => ({
-                    posts: [...data, ...posts],
-                }));
+                dispatcher.dispatch(fetchPosts(data));
+
+                // this.setState(({ posts }) => ({
+                //     posts: [...data, ...posts],
+                // }));
             } catch (message) {
                 console.error(message);
             } finally {
